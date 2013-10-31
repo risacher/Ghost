@@ -10,7 +10,9 @@
         Validate    : new Validator(),
 
         settings: {
-            apiRoot: '/ghost/api/v0.1'
+            base_path: document.location.pathname.match(/(.*)\/ghost\//)[1],
+            apiRoot: document.location.pathname.match(/(.*)\/ghost\//)[1]
+		+'/ghost/api/v0.1'
         },
 
         // This is a helper object to denote legacy things in the
@@ -46,7 +48,7 @@
         Backbone.history.start({
             pushState: true,
             hashChange: false,
-            root: '/ghost'
+            root: Ghost.settings.base_path+'/ghost'
         });
     };
 

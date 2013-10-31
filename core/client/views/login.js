@@ -31,7 +31,7 @@
                 Ghost.Validate.handleErrors();
             } else {
                 $.ajax({
-                    url: '/ghost/signin/',
+                    url: Ghost.settings.base_path+'/ghost/signin/',
                     type: 'POST',
                     headers: {
                         'X-CSRF-Token': $("meta[name='csrf-param']").attr('content')
@@ -88,7 +88,7 @@
                 Ghost.Validate.handleErrors();
             } else {
                 $.ajax({
-                    url: '/ghost/signup/',
+                    url: Ghost.settings.base_path+'/ghost/signup/',
                     type: 'POST',
                     headers: {
                         'X-CSRF-Token': $("meta[name='csrf-param']").attr('content')
@@ -140,7 +140,7 @@
                 Ghost.Validate.handleErrors();
             } else {
                 $.ajax({
-                    url: '/ghost/forgotten/',
+                    url: Ghost.settings.base_path+'/ghost/forgotten/',
                     type: 'POST',
                     headers: {
                         'X-CSRF-Token': $("meta[name='csrf-param']").attr('content')

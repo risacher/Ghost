@@ -99,8 +99,8 @@ adminControllers = {
             loginSecurity.push({ip: req.connection.remoteAddress, time: process.hrtime()[0]});
             api.users.check({email: req.body.email, pw: req.body.password}).then(function (user) {
                 req.session.user = user.id;
-                res.json(200, {redirect: req.body.redirect ? '/ghost/'
-                    + decodeURIComponent(req.body.redirect) : '/ghost/'});
+                res.json(200, {redirect: req.body.redirect ? ghost.config().base_path+'/ghost/'
+                    + decodeURIComponent(req.body.redirect) : ghost.config().base_path+'/ghost/'});
             }, function (error) {
                 res.json(401, {error: error.message});
             });
@@ -143,7 +143,7 @@ adminControllers = {
                 if (req.session.user === undefined) {
                     req.session.user = user.id;
                 }
-                res.json(200, {redirect: '/ghost/'});
+                res.json(200, {redirect: ghost.config().base_path+'/ghost/'});
             });
         }).otherwise(function (error) {
             res.json(401, {error: error.message});
@@ -169,8 +169,8 @@ adminControllers = {
                     html: "<p><strong>Hello!</strong></p>" +
                           "<p>You've reset your password. Here's the new one: " + user.newPassword + "</p>" +
                           "<p>Ghost <br/>" +
-                          '<a href="' + ghost.config().url + '">' +
-                           ghost.config().url + '</a></p>'
+                          '<a href="' + ghost.config().url + '/">' +
+                           ghost.config().url + '/</a></p>'
                 };
 
             return ghost.mail.send(message);
@@ -183,7 +183,7 @@ adminControllers = {
             };
 
             return api.notifications.add(notification).then(function () {
-                res.json(200, {redirect: '/ghost/signin/'});
+                res.json(200, {redirect: ghost.config().base_path+'/ghost/signin/'});
             });
 
         }, function failure(error) {
@@ -200,7 +200,7 @@ adminControllers = {
         };
 
         return api.notifications.add(notification).then(function () {
-            res.redirect('/ghost/signin/');
+            res.redirect(ghost.config().base_path+'/ghost/signin/');
         });
     },
     'index': function (req, res) {

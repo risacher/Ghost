@@ -52,7 +52,7 @@ function auth(req, res, next) {
             }
             redirect = '?r=' + encodeURIComponent(path);
         }
-        return res.redirect('/ghost/signin/' + redirect);
+        return res.redirect(ghost.config().base_path+'/ghost/signin/' + redirect);
     }
 
     next();
@@ -63,7 +63,7 @@ function auth(req, res, next) {
 // Login and signup forms in particular
 function redirectToDashboard(req, res, next) {
     if (req.session.user) {
-        return res.redirect('/ghost/');
+        return res.redirect(ghost.config().base_path+'/ghost/');
     }
 
     next();
@@ -72,7 +72,7 @@ function redirectToDashboard(req, res, next) {
 function redirectToSignup(req, res, next) {
     api.users.browse().then(function (users) {
         if (users.length === 0) {
-            return res.redirect('/ghost/signup/');
+            return res.redirect(ghost.config().base_path+'/ghost/signup/');
         }
         next();
     }).otherwise(function (err) {
@@ -277,7 +277,7 @@ when(ghost.init()).then(function () {
     server.use(whenEnabled(server.get('activeTheme'), middleware.staticTheme(ghost)));
 
     // Add in all trailing slashes
-    server.use(slashes());
+    server.use(slashes({base_path: ghost.config().base_path}));
 
     server.use(express.json());
     server.use(express.urlencoded());
@@ -341,11 +341,11 @@ when(ghost.init()).then(function () {
     // ### Admin routes
     /* TODO: put these somewhere in admin */
     server.get(/^\/logout\/?$/, function redirect(req, res) {
-        res.redirect(301, '/signout/');
+        res.redirect(301, ghost.config().base_path+'/signout/');
     });
     server.get(/^\/signout\/?$/, admin.logout);
     server.get('/ghost/login/', function redirect(req, res) {
-        res.redirect(301, '/ghost/signin/');
+        res.redirect(301, ghost.config().base_path+'/ghost/signin/');
     });
     server.get('/ghost/signin/', redirectToSignup, redirectToDashboard, admin.login);
     server.get('/ghost/signup/', redirectToDashboard, admin.signup);
@@ -365,10 +365,10 @@ when(ghost.init()).then(function () {
 
     // redirect to /ghost and let that do the authentication to prevent redirects to /ghost//admin etc.
     server.get(/^\/((ghost-admin|admin|wp-admin|dashboard|signin)\/?)/, function (req, res) {
-        res.redirect('/ghost/');
+        res.redirect(ghost.config().base_path+'/ghost/');
     });
     server.get(/^\/(ghost$\/?)/, auth, function (req, res) {
-        res.redirect('/ghost/');
+        res.redirect(ghost.config().base_path+'/ghost/');
     });
     server.get('/ghost/', redirectToSignup, auth, admin.index);
 

@@ -33,7 +33,7 @@ db = {
             };
 
             return api.notifications.add(notification).then(function () {
-                res.redirect('/ghost/debug/');
+                res.redirect(ghost.config().base_path+'/ghost/debug/');
             });
         });
     },
@@ -56,7 +56,7 @@ db = {
             };
 
             return api.notifications.add(notification).then(function () {
-                res.redirect('/ghost/debug/');
+                res.redirect(ghost.config().base_path+'/ghost/debug/');
             });
         }
 
@@ -135,7 +135,7 @@ db = {
                     res.set({
                         "X-Cache-Invalidate": "/*"
                     });
-                    res.redirect('/ghost/signin/');
+                    res.redirect(ghost.config().base_path+'/ghost/signin/');
                 });
 
             }, function importFailure(error) {
@@ -148,7 +148,7 @@ db = {
                 };
 
                 return api.notifications.add(notification).then(function () {
-                    res.redirect('/ghost/debug/');
+                    res.redirect(ghost.config().base_path+'/ghost/debug/');
                 });
             });
     },

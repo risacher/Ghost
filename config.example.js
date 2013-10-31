@@ -9,6 +9,8 @@ config = {
     development: {
         // The url to use when providing links to the site, E.g. in RSS and email.
         url: 'http://my-ghost-blog.com',
+        // The prefix to local URIs that is handled by a reverse-proxy server
+        base_path: '',
 
         // Example mail config
         // Visit http://docs.ghost.org/mail for instructions
@@ -45,6 +47,7 @@ config = {
     // Configure your URL and mail settings here
     production: {
         url: 'http://my-ghost-blog.com',
+        base_path: '',
         mail: {},
         database: {
             client: 'sqlite3',
@@ -68,6 +71,7 @@ config = {
     // Uses a different port number
     testing: {
         url: 'http://127.0.0.1:2369',
+        base_path: '',
         database: {
             client: 'sqlite3',
             connection: {
@@ -84,6 +88,7 @@ config = {
     // Automated testing run through GitHub
     travis: {
         url: 'http://127.0.0.1:2368',
+        base_path: '',
         database: {
             client: 'sqlite3',
             connection: {

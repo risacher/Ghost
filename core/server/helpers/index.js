@@ -7,7 +7,7 @@ var _               = require('underscore'),
     models          = require('../models'),
     packageInfo     = require('../../../package.json'),
     version         = packageInfo.version,
-    scriptTemplate  = _.template("<script src='/built/scripts/<%= name %>?v=<%= version %>'></script>"),
+    scriptTemplate  = "", //set this up later
     isProduction    = process.env.NODE_ENV === 'production',
     coreHelpers     = {},
     registerHelpers;
@@ -83,6 +83,8 @@ coreHelpers.url = function (options) {
 
     if (options && options.hash.absolute) {
         output += coreHelpers.ghost.config().url;
+    } else {
+        output += coreHelpers.ghost.config().base_path;
     }
 
     if (models.isPost(this)) {
@@ -300,7 +302,7 @@ coreHelpers.ghost_head = function (options) {
 
 coreHelpers.ghost_foot = function (options) {
     var foot = [];
-    foot.push('<script src="/shared/vendor/jquery/jquery.js"></script>');
+    foot.push('<script src="'+coreHelpers.ghost.config().base_path+'/shared/vendor/jquery/jquery.js"></script>');
 
     return coreHelpers.ghost.doFilter('ghost_foot', foot).then(function (foot) {
         var footString = _.reduce(foot, function (memo, item) { return memo + ' ' + item; }, '');
@@ -312,7 +314,7 @@ coreHelpers.meta_title = function (options) {
     var title,
         blog;
     if (_.isString(this.path)) {
-        if (!this.path || this.path === '/' || this.path === '' || this.path.match(/\/page/)) {
+        if (!this.path || this.path === '/' || this.path === '' || this.path === coreHelpers.ghost.config().base_path || this.path.match(/\/page/)) {
             blog = coreHelpers.ghost.blogGlobals();
             title = blog.title;
         } else {
@@ -331,7 +333,7 @@ coreHelpers.meta_description = function (options) {
         blog;
 
     if (_.isString(this.path)) {
-        if (!this.path || this.path === '/' || this.path === '' || this.path.match(/\/page/)) {
+        if (!this.path || this.path === '/' || this.path === '' || this.path === coreHelpers.ghost.config().base_path || this.path.match(/\/page/)) {
             blog = coreHelpers.ghost.blogGlobals();
             description = blog.description;
         } else {
@@ -481,6 +483,7 @@ registerHelpers = function (ghost) {
 
     // Expose this so our helpers can use it in their code.
     coreHelpers.ghost = ghost;
+    scriptTemplate  = _.template("<script src='"+ghost.config().base_path+"/built/scripts/<%= name %>?v=<%= version %>'></script>"),
 
     ghost.registerThemeHelper('date', coreHelpers.date);
 
