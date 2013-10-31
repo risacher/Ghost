@@ -62,7 +62,7 @@
                 var self = this;
 
                 $dropzone.find('.js-fileupload').fileupload().fileupload("option", {
-                    url: '/ghost/upload/',
+                    url: Ghost.settings.base_path + '/ghost/upload/',
                     headers: {
                         'X-CSRF-Token': $("meta[name='csrf-param']").attr('content')
                     },
