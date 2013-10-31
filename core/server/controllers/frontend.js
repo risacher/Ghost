@@ -26,13 +26,13 @@ frontendControllers = {
         // No negative pages
         if (isNaN(pageParam) || pageParam < 1) {
             //redirect to 404 page?
-            return res.redirect(ghost.config().base_path+'/');
+            return res.redirect(ghost.config().base_path + '/');
         }
         options.page = pageParam;
 
         // Redirect '/page/1/' to '/' for all teh good SEO
         if (pageParam === 1 && req.route.path === '/page/:page/') {
-            return res.redirect(ghost.config().base_path+'/');
+            return res.redirect(ghost.config().base_path + '/');
         }
 
         // No negative posts per page, must be number
@@ -52,7 +52,7 @@ frontendControllers = {
             // If page is greater than number of pages we have, redirect to last page
             if (pageParam > maxPage) {
                 return res.redirect(ghost.config().base_path
-				    +(maxPage === 1 ? '/' : ('/page/' + maxPage + '/')));
+                                    + (maxPage === 1 ? '/' : ('/page/' + maxPage + '/')));
             }
 
             // Render the page of posts
@@ -96,11 +96,11 @@ frontendControllers = {
 
             // No negative pages
             if (isNaN(pageParam) || pageParam < 1) {
-                return res.redirect(ghost.config().base_path+'/rss/');
+                return res.redirect(ghost.config().base_path + '/rss/');
             }
 
             if (pageParam === 1 && req.route.path === '/rss/:page/') {
-                return res.redirect(ghost.config().base_path+'/rss/');
+                return res.redirect(ghost.config().base_path + '/rss/');
             }
 
             api.posts.browse({page: pageParam}).then(function (page) {
@@ -114,7 +114,7 @@ frontendControllers = {
 
                 // If page is greater than number of pages we have, redirect to last page
                 if (pageParam > maxPage) {
-                    return res.redirect(ghost.config().base_path+'/rss/' + maxPage + '/');
+                    return res.redirect(ghost.config().base_path + '/rss/' + maxPage + '/');
                 }
 
                 ghost.doFilter('prePostsRender', page.posts).then(function (posts) {

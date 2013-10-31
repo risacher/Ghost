@@ -382,7 +382,7 @@
             } else {
 
                 $.ajax({
-                    url: Ghost.settings.base_path+'/ghost/changepw/',
+                    url: Ghost.settings.base_path + '/ghost/changepw/',
                     type: 'POST',
                     headers: {
                         'X-CSRF-Token': $("meta[name='csrf-param']").attr('content')

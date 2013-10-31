@@ -302,7 +302,7 @@ coreHelpers.ghost_head = function (options) {
 
 coreHelpers.ghost_foot = function (options) {
     var foot = [];
-    foot.push('<script src="'+coreHelpers.ghost.config().base_path+'/shared/vendor/jquery/jquery.js"></script>');
+    foot.push('<script src="' + coreHelpers.ghost.config().base_path + '/shared/vendor/jquery/jquery.js"></script>');
 
     return coreHelpers.ghost.doFilter('ghost_foot', foot).then(function (foot) {
         var footString = _.reduce(foot, function (memo, item) { return memo + ' ' + item; }, '');
@@ -483,7 +483,8 @@ registerHelpers = function (ghost) {
 
     // Expose this so our helpers can use it in their code.
     coreHelpers.ghost = ghost;
-    scriptTemplate  = _.template("<script src='"+ghost.config().base_path+"/built/scripts/<%= name %>?v=<%= version %>'></script>"),
+
+    scriptTemplate  = _.template("<script src='" + ghost.config().base_path + "/built/scripts/<%= name %>?v=<%= version %>'></script>");
 
     ghost.registerThemeHelper('date', coreHelpers.date);
 
